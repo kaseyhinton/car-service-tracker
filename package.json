@@ -1,0 +1,49 @@
+{
+  "name": "carservicetracker",
+  "version": "1.0.0",
+  "contributors": [
+    "Kasey Hinton"
+  ],
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@amber-ds/components": "^1.2.5",
+    "@amber-ds/visual": "^1.0.2",
+    "@collaborne/lit-flexbox-literals": "^0.2.2",
+    "@webcomponents/webcomponentsjs": "^2.3.0",
+    "dayjs": "^1.8.16",
+    "lit-element": "^2.2.1",
+    "natives": "^1.1.6",
+    "page": "^1.11.5"
+  },
+  "devDependencies": {
+    "@types/page": "^1.8.0",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "browser-sync": "^2.26.7",
+    "del": "^5.1.0",
+    "eslint": "6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "gulp": "^4.0.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "github:prettier/prettier",
+    "prpl-server": "^1.4.0",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "start": "run-p watch serve serve:bs",
+    "build": "npm run lint && npm run build:prpl-server && npm run build:static",
+    "build:prpl-server": "rm -rf server/build && tsc && polymer build --auto-base-path && gulp prpl-server",
+    "build:static": "tsc && polymer build",
+    "serve": "polymer serve -p 8000 -v",
+    "lint": "eslint ./src/**/*.ts",
+    "serve:bs": "sleep 3 && browser-sync start --config bs-config.js",
+    "serve:prpl-server": "prpl-server --root server/build",
+    "serve:static": "polymer serve --port 5000 build/es5-bundled",
+    "watch": "tsc --watch",
+    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000",
+    "generate-typings": "gen-typescript-declarations --root  src/types --outDir  src/types"
+  }
+}

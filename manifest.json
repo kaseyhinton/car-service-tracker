@@ -1,0 +1,37 @@
+{
+  "name": "Car Service Tracker",
+  "short_name": "CST",
+  "description": "Track the service history of all the vehicles you are responsible for",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#727272",
+  "permissions": ["clipboardWrite"],
+  "icons": [
+    {
+      "src": "images/icons/mipmap-mdpi/ic_launcher.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "images/icons/mipmap-hdpi/ic_launcher.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icons/mipmap-xxhdpi/ic_launcher.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icons/mipmap-xxxhdpi/ic_launcher.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icons/playstore/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
