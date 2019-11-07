@@ -2,6 +2,7 @@
 import page from 'page';
 import { displayFlex, vertical, displayNone, selfCenter } from '@collaborne/lit-flexbox-literals';
 import '@amber-ds/components/progress';
+import './components/cst-banner/cst-banner';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
@@ -80,6 +81,8 @@ export class CSTAppElement extends LitElement {
           <div class="col-2"></div>
         </div>
       </div>
+
+      <cst-banner></cst-banner>
     `;
   }
 }
