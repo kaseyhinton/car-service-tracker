@@ -1,7 +1,7 @@
 import { LitElement, customElement, html, css } from 'lit-element';
 import { displayFlex, vertical } from '@collaborne/lit-flexbox-literals';
-import { CSTBannerSingleton } from '../cst-banner/cst-banner';
-import CSTStyles from '../cst-styles/cst-styles';
+import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
+import CSTStyles from '../../styles/cst-styles/cst-styles';
 
 let firstLoad: boolean = false;
 
@@ -24,7 +24,7 @@ export default class CarListElement extends LitElement {
   firstUpdated() {
     if (!firstLoad) {
       firstLoad = true;
-      CSTBannerSingleton.open('We appreciate you trying our car service tracker.');
+      CSTSnackbarSingleton.open('Thanks for trying our car service tracker.');
     }
   }
 

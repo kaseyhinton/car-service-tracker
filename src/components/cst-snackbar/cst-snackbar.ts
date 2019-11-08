@@ -1,8 +1,8 @@
 import { LitElement, html, property, customElement, css } from 'lit-element';
-import CSTStyles from '../cst-styles/cst-styles';
+import CSTStyles from '../../styles/cst-styles/cst-styles';
 import { displayFlex, flexFactorAuto, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 
-export class BasicBanner {
+export class BasicSnackbar {
   _isComponent = false;
   open(message: string) {
     void message;
@@ -10,10 +10,10 @@ export class BasicBanner {
   }
 }
 
-export let CSTBannerSingleton = new BasicBanner();
+export let CSTSnackbarSingleton = new BasicSnackbar();
 
-@customElement('cst-banner')
-export default class CSTBanner extends LitElement {
+@customElement('cst-snackbar')
+export default class CSTSnackbarElement extends LitElement {
   @property({ type: String }) message: string = '';
   @property({ type: Boolean, reflect: true }) protected opened: boolean;
   @property({ type: Boolean, reflect: true }) protected closing: boolean;
@@ -27,8 +27,8 @@ export default class CSTBanner extends LitElement {
 
   constructor() {
     super();
-    if (!CSTBannerSingleton || !CSTBannerSingleton._isComponent) {
-      CSTBannerSingleton = this;
+    if (!CSTSnackbarSingleton || !CSTSnackbarSingleton._isComponent) {
+      CSTSnackbarSingleton = this;
     } else {
       console.warn('More than one cst-banner-element has been used in this web application, consider removing one.');
     }
@@ -140,7 +140,7 @@ export default class CSTBanner extends LitElement {
       opacity: 1;
     }
 
-    cst-banner-container {
+    section {
       ${displayFlex}
       ${horizontal}
       ${centerAligned}
@@ -149,10 +149,9 @@ export default class CSTBanner extends LitElement {
     a.button {
       ${displayFlex}
       ${flexFactorAuto}
-      cursor: default;
       user-select: none;
       padding: 8px 16px;
-      margin: 0;
+      margin: 0 0 0 16px;
       height: 16px;
       line-height: 16px;
     }
@@ -160,7 +159,7 @@ export default class CSTBanner extends LitElement {
 
   render() {
     return html`
-      <cst-banner-container ?hidden=${!this.opened}>
+      <section ?hidden=${!this.opened}>
         ${this.message}
         <a
           class="button"
@@ -171,7 +170,7 @@ export default class CSTBanner extends LitElement {
           }}
           >Ok</a
         >
-      </cst-banner-container>
+      </section>
     `;
   }
 }

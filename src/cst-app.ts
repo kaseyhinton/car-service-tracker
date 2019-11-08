@@ -2,13 +2,13 @@
 import page from 'page';
 import { displayFlex, vertical, displayNone, selfCenter } from '@collaborne/lit-flexbox-literals';
 import '@amber-ds/components/progress';
-import './components/cst-banner/cst-banner';
+import './components/cst-snackbar/cst-snackbar';
 import './components/cst-header/cst-header';
 import './components/cst-404/cst-404';
 import './components/cst-loading/cst-loading';
 
 import { NavigateEvent } from './events';
-import CSTStyles from './components/cst-styles/cst-styles';
+import CSTStyles from './styles/cst-styles/cst-styles';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
@@ -94,7 +94,7 @@ export class CSTAppElement extends LitElement {
               `}
         </main-content>
 
-        <cst-banner></cst-banner>
+        <cst-snackbar></cst-snackbar>
       </main>
     `;
   }

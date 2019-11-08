@@ -1,6 +1,6 @@
 import { LitElement, customElement, html, css } from 'lit-element';
 import { displayFlex, horizontal, centerAligned, flexFactorAuto } from '@collaborne/lit-flexbox-literals';
-import CSTStyles from '../cst-styles/cst-styles';
+import CSTStyles from '../../styles/cst-styles/cst-styles';
 
 @customElement('cst-header')
 export default class CSTHeaderElement extends LitElement {
