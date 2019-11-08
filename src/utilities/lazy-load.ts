@@ -1,11 +1,10 @@
 import { directive } from 'lit-html';
 
 const resolved = new WeakSet();
-const lazyLoad = directive((importPromise, value) => part => {
+const lazyLoad = directive((importPromise, value) => async part => {
   if (!resolved.has(part)) {
-    importPromise.then(() => {
-      resolved.add(part);
-    });
+    await importPromise;
+    resolved.add(part);
   }
   part.setValue(value);
   setTimeout(() => {
