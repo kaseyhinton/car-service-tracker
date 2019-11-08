@@ -1,13 +1,13 @@
 import { LitElement, customElement, html, css } from 'lit-element';
-import { displayFlex, vertical, horizontal, centerAligned, flexFactorAuto } from '@collaborne/lit-flexbox-literals';
+import { displayFlex, vertical, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
 import { plus } from '../../icons';
 
 let firstLoad: boolean = false;
 
-@customElement('car-list')
-export default class CarListElement extends LitElement {
+@customElement('cst-list')
+export default class CSTListElement extends LitElement {
   static styles = css`
     ${CSTStyles}
     :host {
@@ -63,7 +63,7 @@ export default class CarListElement extends LitElement {
       <header>
         <h4 class="title">Vehicle Inventory</h4>
         <spacer></spacer>
-        <a class="button button-outline" href="/add-vehicle" title="Add vehicle">
+        <a class="button button-outline" href="/add-vehicle" alt="Add Vehicle" title="Add Vehicle">
           <svg viewBox="0 0 24 24">
             <path d=${plus} />
           </svg>

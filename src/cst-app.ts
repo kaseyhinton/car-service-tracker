@@ -36,7 +36,7 @@ export class CSTAppElement extends LitElement {
     try {
       switch (mainPage) {
         case '/':
-          await import('./components/car-list/car-list.js');
+          await import('./components/cst-list/cst-list.js');
           break;
       }
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -90,7 +90,7 @@ export class CSTAppElement extends LitElement {
                 <cst-loading></cst-loading>
               `
             : html`
-                <car-list ?hidden=${this.page !== '/'} ?isActive=${this.page === '/'}></car-list>
+                <cst-list ?hidden=${this.page !== '/'} ?isActive=${this.page === '/'}></cst-list>
                 <cst-404 ?hidden=${this.page !== '404'}></cst-404>
               `}
         </main-content>
