@@ -1,4 +1,4 @@
-import { LitElement, customElement, html, css, property } from 'lit-element';
+import { LitElement, customElement, html, css } from 'lit-element';
 import { displayFlex, vertical } from '@collaborne/lit-flexbox-literals';
 import { CSTBannerSingleton } from '../cst-banner/cst-banner';
 
