@@ -56,6 +56,7 @@ export class CSTAppElement extends LitElement {
       --app-primary-color: #86addb;
       --app-secondary-color: #b8b8b8;
       --app-text-color: #5c5c5c;
+      --app-hover-color: #757575;
       overflow: hidden;
       ${displayFlex}
       ${vertical}

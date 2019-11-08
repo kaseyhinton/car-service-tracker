@@ -26,7 +26,7 @@ export default class CST404 extends LitElement {
         These aren't the cars you are looking for..
       </p>
       <a class="button" href="/">
-        Let's get out of here
+        Home
       </a>
     `;
   }

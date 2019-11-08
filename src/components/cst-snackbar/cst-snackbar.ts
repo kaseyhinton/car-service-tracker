@@ -98,8 +98,9 @@ export default class CSTSnackbarElement extends LitElement {
       border-radius: 8px;
       padding: 16px;
       position: absolute;
-      bottom: 24px;
-      left: 24px;
+      bottom: 16px;
+      left: 16px;
+      background-color: #fff;
       -webkit-box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
       box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
       -webkit-box-sizing: border-box;

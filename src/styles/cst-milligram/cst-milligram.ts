@@ -11,7 +11,7 @@ const CSTMilligram = css`
     font-size: 62.5%;
   }
   body {
-    color: #606c76;
+    color: var(--app-hover-color);
     font-family: -apple-system, system-ui, Segoe UI, Helvetica, Arial, sans-serif !important;
     font-size: 1.6em;
     font-weight: 300;
@@ -40,9 +40,9 @@ const CSTMilligram = css`
     display: inline-block;
     font-size: 1rem;
     font-weight: 500;
-    height: 3.8rem;
+    height: 48px;
+    line-height: 48px;
     letter-spacing: normal;
-    line-height: 3.8rem;
     padding: 0 3rem;
     text-align: center;
     text-decoration: none;
@@ -59,8 +59,8 @@ const CSTMilligram = css`
   input[type='reset']:hover,
   input[type='submit']:focus,
   input[type='submit']:hover {
-    background-color: #606c76;
-    border-color: #606c76;
+    background-color: var(--app-hover-color);
+    border-color: var(--app-hover-color);
     color: #fff;
     outline: 0;
   }
@@ -104,8 +104,11 @@ const CSTMilligram = css`
   input[type='submit'].button-outline:focus,
   input[type='submit'].button-outline:hover {
     background-color: transparent;
-    border-color: #606c76;
-    color: #606c76;
+    border-color: var(--app-hover-color);
+    color: var(--app-hover-color);
+  }
+  .button:hover svg {
+    fill: var(--app-hover-color);
   }
   .button.button-outline[disabled]:focus,
   .button.button-outline[disabled]:hover,
@@ -141,7 +144,7 @@ const CSTMilligram = css`
   input[type='submit'].button-clear:hover {
     background-color: transparent;
     border-color: transparent;
-    color: #606c76;
+    color: var(--app-hover-color);
   }
   .button.button-clear[disabled]:focus,
   .button.button-clear[disabled]:hover,
@@ -403,7 +406,7 @@ const CSTMilligram = css`
   }
   a:focus,
   a:hover {
-    color: #606c76;
+    color: var(--app-hover-color);
   }
   dl,
   ol,

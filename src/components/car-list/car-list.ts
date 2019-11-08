@@ -1,7 +1,8 @@
 import { LitElement, customElement, html, css } from 'lit-element';
-import { displayFlex, vertical } from '@collaborne/lit-flexbox-literals';
+import { displayFlex, vertical, horizontal, centerAligned, flexFactorAuto } from '@collaborne/lit-flexbox-literals';
 import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
+import { plus } from '../../icons';
 
 let firstLoad: boolean = false;
 
@@ -19,6 +20,35 @@ export default class CarListElement extends LitElement {
       margin-top: 24px;
       height: 132px;
     }
+
+    header {
+      ${displayFlex}
+      ${horizontal}
+      ${centerAligned}
+      margin-bottom: 24px;
+    }
+
+    h4 {
+      margin: 0;
+    }
+
+    spacer {
+      ${displayFlex}
+    }
+
+    a.button {
+      align-self: flex-end;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 0 0 16px;
+      padding: 0;
+    }
+
+    svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--app-primary-color);
+    }
   `;
 
   firstUpdated() {
@@ -30,8 +60,15 @@ export default class CarListElement extends LitElement {
 
   render() {
     return html`
-      <h3 class="title">Vehicle Inventory</h3>
-
+      <header>
+        <h4 class="title">Vehicle Inventory</h4>
+        <spacer></spacer>
+        <a class="button button-outline" href="/add-vehicle" title="Add vehicle">
+          <svg viewBox="0 0 24 24">
+            <path d=${plus} />
+          </svg>
+        </a>
+      </header>
       <table>
         <tr>
           <th>Make</th>
