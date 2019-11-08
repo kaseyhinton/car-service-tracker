@@ -3,6 +3,9 @@ import page from 'page';
 import { displayFlex, vertical, displayNone, selfCenter } from '@collaborne/lit-flexbox-literals';
 import '@amber-ds/components/progress';
 import './components/cst-banner/cst-banner';
+import './components/cst-header/cst-header';
+import './components/cst-404/cst-404';
+import { NavigateEvent } from './events';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
@@ -10,17 +13,21 @@ export class CSTAppElement extends LitElement {
   @property({ type: String }) page: string | undefined;
 
   firstUpdated() {
-    setTimeout(() => {
-      page('/', () => {
-        this.pageChanged('/');
-      });
-      page.start();
-    }, 600);
+    this.addEventListener(NavigateEvent.eventName, (event: NavigateEvent) => page.show(event.detail));
+
+    page('/', () => {
+      this.pageChanged('/');
+    });
+
+    page('*', () => {
+      this.pageChanged('404');
+    });
+
+    page.start();
   }
 
   async pageChanged(mainPage: string) {
     this.page = mainPage;
-    console.log(this.page);
     this.isLoading = true;
 
     try {
@@ -32,8 +39,11 @@ export class CSTAppElement extends LitElement {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     } catch (error) {
       console.warn(error);
+      this.pageChanged('404');
     } finally {
-      this.isLoading = false;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 600);
     }
   }
 
@@ -67,18 +77,20 @@ export class CSTAppElement extends LitElement {
       <link href="https://unpkg.com/@amber-ds/visual@1.0.1/dist/index.css" rel="stylesheet" />
 
       <div class="container-fluid">
+        <cst-header></cst-header>
         <div class="row">
-          <div class="col-2"></div>
-          <main-content class="col-8">
+          <div class="col-1"></div>
+          <main-content class="col-10">
             ${this.isLoading
               ? html`
                   <amber-progress></amber-progress>
                 `
               : html`
                   <car-list ?hidden=${this.page !== '/'} ?isActive=${this.page === '/'}></car-list>
+                  <cst-404 ?hidden=${this.page !== '404'}></cst-404>
                 `}
           </main-content>
-          <div class="col-2"></div>
+          <div class="col-1"></div>
         </div>
       </div>
 
