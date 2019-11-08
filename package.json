@@ -6,8 +6,6 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@amber-ds/components": "^1.2.5",
-    "@amber-ds/visual": "^1.0.2",
     "@collaborne/lit-flexbox-literals": "^0.2.2",
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "dayjs": "^1.8.16",

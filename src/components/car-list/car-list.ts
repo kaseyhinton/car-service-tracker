@@ -1,47 +1,37 @@
 import { LitElement, customElement, html, css } from 'lit-element';
 import { displayFlex, vertical } from '@collaborne/lit-flexbox-literals';
 import { CSTBannerSingleton } from '../cst-banner/cst-banner';
+import CSTStyles from '../cst-styles/cst-styles';
 
 let firstLoad: boolean = false;
 
 @customElement('car-list')
 export default class CarListElement extends LitElement {
   static styles = css`
+    ${CSTStyles}
     :host {
       ${displayFlex}
       ${vertical}
-      margin: 16px 0;
+      margin: 24px 16px;
     }
 
     img {
       margin-top: 24px;
       height: 132px;
     }
-
-    th {
-      text-align: left;
-    }
-
-    tr:nth-child(2n) {
-      background-color: #f9f9f9;
-    }
-
-    td:hover {
-      cursor: default;
-    }
   `;
 
   firstUpdated() {
     if (!firstLoad) {
       firstLoad = true;
-      CSTBannerSingleton.show('Thanks!', 'We appreciate you trying our car service tracker.', 'Ok', '');
+      CSTBannerSingleton.open('We appreciate you trying our car service tracker.');
     }
   }
 
   render() {
     return html`
-      <link href="https://unpkg.com/@amber-ds/visual@1.0.1/dist/index.css" rel="stylesheet" />
-      <h2>Vehicle Inventory</h2>
+      <h3 class="title">Vehicle Inventory</h3>
+
       <table>
         <tr>
           <th>Make</th>
@@ -70,7 +60,7 @@ export default class CarListElement extends LitElement {
         </tr>
       </table>
 
-      <img src="images/undraw_fast_car.svg" />
+      <img alt="car" src="images/undraw_fast_car.svg" />
     `;
   }
 }

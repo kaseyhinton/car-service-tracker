@@ -1,16 +1,11 @@
-import { LitElement, html, query, property, customElement } from 'lit-element';
-import '@amber-ds/components/banner';
+import { LitElement, html, property, customElement, css } from 'lit-element';
+import CSTStyles from '../cst-styles/cst-styles';
+import { displayFlex, flexFactorAuto, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 
 export class BasicBanner {
   _isComponent = false;
-  show(title: string, content: string, labels: string, state: BannerState) {
-    void title;
-    void content;
-    void labels;
-    void state;
-    console.warn('Missing import of cst-banner');
-  }
-  hide() {
+  open(message: string) {
+    void message;
     console.warn('Missing import of cst-banner');
   }
 }
@@ -19,13 +14,16 @@ export let CSTBannerSingleton = new BasicBanner();
 
 @customElement('cst-banner')
 export default class CSTBanner extends LitElement {
-  @query('amber-banner') banner;
-  @property({ type: String }) content: string;
-  @property({ type: String }) labels: string = 'Ok';
-  @property({ type: String }) state: string = '';
-  @property({ type: String }) title: string = '';
-
+  @property({ type: String }) message: string = '';
+  @property({ type: Boolean, reflect: true }) protected opened: boolean;
+  @property({ type: Boolean, reflect: true }) protected closing: boolean;
+  @property({ type: Boolean, reflect: true }) protected opening: boolean;
   _isComponent = true;
+
+  private _animationTimer: number;
+  private _animationFrame: number;
+  private _resolve: { (value?: {} | PromiseLike<{}> | undefined): void; (): void };
+  private _closeTimeoutHandle: number;
 
   constructor() {
     super();
@@ -36,27 +34,144 @@ export default class CSTBanner extends LitElement {
     }
   }
 
-  show(title: string, content: string, labels: string, state: BannerState = '') {
-    this.title = title;
-    this.content = content;
-    this.labels = labels;
-    this.state = state;
-    this.banner.show();
+  private handleAnimationTimerEnd_() {
+    this.opening = false;
+    this.closing = false;
   }
 
-  hide() {
-    this.title = '';
-    this.content = '';
-    this.banner.hide();
+  private runNextAnimationFrame_(callback: () => void) {
+    cancelAnimationFrame(this._animationFrame);
+    this._animationFrame = requestAnimationFrame(() => {
+      this._animationFrame = 0;
+      clearTimeout(this._animationFrame);
+      this._animationFrame = window.setTimeout(callback, 0);
+    });
   }
+
+  close() {
+    if (!this.opened) {
+      return;
+    }
+
+    cancelAnimationFrame(this._animationFrame);
+    this._animationFrame = 0;
+
+    this.closing = true;
+    this.opened = false;
+    this.opening = false;
+    clearTimeout(this._animationTimer);
+    this._animationTimer = window.setTimeout(() => {
+      this.handleAnimationTimerEnd_();
+    }, 75);
+
+    this._resolve();
+  }
+
+  open(message: string) {
+    return new Promise(resolve => {
+      //reset
+      clearTimeout(this._closeTimeoutHandle);
+
+      if (message) {
+        this.message = message;
+      }
+
+      this._resolve = resolve;
+      this.closing = false;
+      this.opened = false;
+      this.opening = true;
+
+      this.runNextAnimationFrame_(() => {
+        this.opened = true;
+        this._animationTimer = window.setTimeout(() => {
+          this.handleAnimationTimerEnd_();
+        }, 150);
+      });
+    });
+  }
+
+  static styles = css`
+    ${CSTStyles}
+    :host {
+      max-width: 280px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px;
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      -webkit-box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+      transform: scale(0.8);
+      opacity: 0;
+    }
+
+    :host([opening]),
+    :host([opened]),
+    :host([closing]) {
+      display: flex;
+    }
+
+    :host([opening]) {
+      -webkit-transition: opacity 75ms linear, -webkit-transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
+      transition: opacity 75ms linear, -webkit-transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
+      -o-transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
+      transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
+      transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1), -webkit-transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    :host([closing]) {
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: opacity 75ms linear;
+      -o-transition: opacity 75ms linear;
+      transition: opacity 75ms linear;
+    }
+
+    :host([opened]) {
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    cst-banner-container {
+      ${displayFlex}
+      ${horizontal}
+      ${centerAligned}
+    }
+
+    a.button {
+      ${displayFlex}
+      ${flexFactorAuto}
+      cursor: default;
+      user-select: none;
+      padding: 8px 16px;
+      margin: 0;
+      height: 16px;
+      line-height: 16px;
+    }
+  `;
 
   render() {
     return html`
-      <amber-banner .title=${this.title} .labels=${this.labels} .state=${this.state}>
-        ${this.content}
-      </amber-banner>
+      <cst-banner-container ?hidden=${!this.opened}>
+        ${this.message}
+        <a
+          class="button"
+          @click=${e => {
+            e.preventDefault();
+            clearTimeout(this._closeTimeoutHandle);
+            this.close();
+          }}
+          >Ok</a
+        >
+      </cst-banner-container>
     `;
   }
 }
-
-type BannerState = '' | 'success' | 'error' | 'warning' | 'error';

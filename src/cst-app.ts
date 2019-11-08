@@ -5,7 +5,10 @@ import '@amber-ds/components/progress';
 import './components/cst-banner/cst-banner';
 import './components/cst-header/cst-header';
 import './components/cst-404/cst-404';
+import './components/cst-loading/cst-loading';
+
 import { NavigateEvent } from './events';
+import CSTStyles from './components/cst-styles/cst-styles';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
@@ -43,13 +46,14 @@ export class CSTAppElement extends LitElement {
     } finally {
       setTimeout(() => {
         this.isLoading = false;
-      }, 600);
+      }, 300);
     }
   }
 
   static styles = css`
+    ${CSTStyles}
     :host {
-      --app-primary-color: #eb6400;
+      --app-primary-color: #86addb;
       --app-secondary-color: #b8b8b8;
       --app-text-color: #5c5c5c;
       overflow: hidden;
@@ -60,9 +64,12 @@ export class CSTAppElement extends LitElement {
     main-content {
       ${displayFlex}
       ${vertical}
+      margin: 0 auto;
+      max-width: 900px;
+      width: 100%;
     }
 
-    amber-progress {
+    cst-loading {
       ${selfCenter}
       margin-top: 24px;
     }
@@ -74,27 +81,21 @@ export class CSTAppElement extends LitElement {
 
   render() {
     return html`
-      <link href="https://unpkg.com/@amber-ds/visual@1.0.1/dist/index.css" rel="stylesheet" />
-
-      <div class="container-fluid">
+      <main class="wrapper">
         <cst-header></cst-header>
-        <div class="row">
-          <div class="col-1"></div>
-          <main-content class="col-10">
-            ${this.isLoading
-              ? html`
-                  <amber-progress></amber-progress>
-                `
-              : html`
-                  <car-list ?hidden=${this.page !== '/'} ?isActive=${this.page === '/'}></car-list>
-                  <cst-404 ?hidden=${this.page !== '404'}></cst-404>
-                `}
-          </main-content>
-          <div class="col-1"></div>
-        </div>
-      </div>
+        <main-content>
+          ${this.isLoading
+            ? html`
+                <cst-loading></cst-loading>
+              `
+            : html`
+                <car-list ?hidden=${this.page !== '/'} ?isActive=${this.page === '/'}></car-list>
+                <cst-404 ?hidden=${this.page !== '404'}></cst-404>
+              `}
+        </main-content>
 
-      <cst-banner></cst-banner>
+        <cst-banner></cst-banner>
+      </main>
     `;
   }
 }

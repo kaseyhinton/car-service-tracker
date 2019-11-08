@@ -1,11 +1,11 @@
 import { LitElement, html, customElement, css } from 'lit-element';
 import { displayFlex, vertical, centerAligned } from '@collaborne/lit-flexbox-literals';
-import '@amber-ds/components/button';
-import { NavigateEvent } from '../../events';
+import CSTStyles from '../cst-styles/cst-styles';
 
 @customElement('cst-404')
 export default class CST404 extends LitElement {
   static styles = css`
+  ${CSTStyles}
     :host {
       ${displayFlex}
       ${vertical}
@@ -20,23 +20,14 @@ export default class CST404 extends LitElement {
   `;
   render() {
     return html`
-      <link href="https://unpkg.com/@amber-ds/visual@1.0.1/dist/index.css" rel="stylesheet" />
-
-      <img src="images/undraw_vehicle_sale.svg" />
-      <h1>OOPS!</h1>
+      <img alt="car" src="images/undraw_vehicle_sale.svg" />
+      <h2>OOPS!</h2>
       <p>
         These aren't the cars you are looking for..
       </p>
-      <amber-button
-        priority="secondary"
-        @click=${() => {
-          this.dispatchEvent(new NavigateEvent('/'));
-        }}
-      >
-        <amber-button-contents>
-          Let's get out of here
-        </amber-button-contents>
-      </amber-button>
+      <a class="button" href="/">
+        Let's get out of here
+      </a>
     `;
   }
 }

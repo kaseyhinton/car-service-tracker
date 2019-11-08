@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.js",
+  "shell": "src/cst-app.js",
   "sources": ["images/**/*", "images/favicon-16x16.png", "images/favicon-32x32.png", "images/favicon-96x96.png"],
   "extraDependencies": ["manifest.json", "node_modules/@webcomponents/webcomponentsjs/**", "node_modules/dayjs/dayjs.min.js"],
   "builds": [
