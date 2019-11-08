@@ -3,7 +3,11 @@ import '@amber-ds/components/banner';
 
 export class BasicBanner {
   _isComponent = false;
-  show(title: string, content: string, labels: string, state: BannerState = '') {
+  show(title: string, content: string, labels: string, state: BannerState) {
+    void title;
+    void content;
+    void labels;
+    void state;
     console.warn('Missing import of cst-banner');
   }
   hide() {
@@ -19,6 +23,7 @@ export default class CSTBanner extends LitElement {
   @property({ type: String }) content: string;
   @property({ type: String }) labels: string = 'Ok';
   @property({ type: String }) state: string = '';
+  @property({ type: String }) title: string = '';
 
   _isComponent = true;
 
