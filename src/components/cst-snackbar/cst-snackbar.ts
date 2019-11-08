@@ -1,6 +1,5 @@
 import { LitElement, html, property, customElement, css } from 'lit-element';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
-import { displayFlex, flexFactorAuto, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 
 export class BasicSnackbar {
   _isComponent = false;
@@ -142,14 +141,13 @@ export default class CSTSnackbarElement extends LitElement {
     }
 
     section {
-      ${displayFlex}
-      ${horizontal}
-      ${centerAligned}
+      display: flex;
+      align-items: center;
     }
 
     a.button {
-      ${displayFlex}
-      ${flexFactorAuto}
+      display: flex;
+      flex: 1 1 auto;
       user-select: none;
       padding: 8px 16px;
       margin: 0 0 0 16px;

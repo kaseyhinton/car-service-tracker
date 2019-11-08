@@ -1,29 +1,26 @@
 import { LitElement, customElement, html, css } from 'lit-element';
-import { displayFlex, horizontal, centerAligned, flexFactorAuto } from '@collaborne/lit-flexbox-literals';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
 
 @customElement('cst-header')
 export default class CSTHeaderElement extends LitElement {
   static styles = css`
-  ${CSTStyles}
+    ${CSTStyles}
     :host {
-      ${displayFlex}
-      ${horizontal}
-      ${centerAligned}
+      display: flex;
+      align-items: center;
       height: 55px;
       border-bottom: 1px solid #eee;
     }
 
     nav {
-      ${displayFlex}
-      ${flexFactorAuto}
-      ${horizontal}
+      display: flex;
+      flex: 1 1 auto;
       margin: 0 24px;
     }
 
     spacer {
-      ${displayFlex}
-      ${flexFactorAuto}
+      display: flex;
+      flex: 1 1 auto;
     }
   `;
 

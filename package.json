@@ -6,7 +6,6 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@collaborne/lit-flexbox-literals": "^0.2.2",
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "dayjs": "^1.8.16",
     "lit-element": "^2.2.1",

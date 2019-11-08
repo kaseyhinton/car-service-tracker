@@ -1,5 +1,4 @@
 import { LitElement, customElement, html, css } from 'lit-element';
-import { displayFlex, vertical, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
 import { plus } from '../../icons';
@@ -11,8 +10,8 @@ export default class CSTListElement extends LitElement {
   static styles = css`
     ${CSTStyles}
     :host {
-      ${displayFlex}
-      ${vertical}
+      display: flex;
+      flex-direction: column;
       margin: 24px 16px;
     }
 
@@ -22,18 +21,13 @@ export default class CSTListElement extends LitElement {
     }
 
     header {
-      ${displayFlex}
-      ${horizontal}
-      ${centerAligned}
+      display: flex;
+      align-items: center;
       margin-bottom: 24px;
     }
 
     h4 {
       margin: 0;
-    }
-
-    spacer {
-      ${displayFlex}
     }
 
     a.button {
@@ -62,7 +56,6 @@ export default class CSTListElement extends LitElement {
     return html`
       <header>
         <h4 class="title">Vehicle Inventory</h4>
-        <spacer></spacer>
         <a class="button button-outline" href="/add-vehicle" alt="Add Vehicle" title="Add Vehicle">
           <svg viewBox="0 0 24 24">
             <path d=${plus} />

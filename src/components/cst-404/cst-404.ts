@@ -1,15 +1,14 @@
 import { LitElement, html, customElement, css } from 'lit-element';
-import { displayFlex, vertical, centerAligned } from '@collaborne/lit-flexbox-literals';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
 
 @customElement('cst-404')
 export default class CST404 extends LitElement {
   static styles = css`
-  ${CSTStyles}
+    ${CSTStyles}
     :host {
-      ${displayFlex}
-      ${vertical}
-      ${centerAligned}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin: 16px 0;
     }
 

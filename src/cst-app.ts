@@ -1,7 +1,5 @@
 ﻿import { css, customElement, html, LitElement, property } from 'lit-element';
 import page from 'page';
-import { displayFlex, vertical, displayNone, selfCenter } from '@collaborne/lit-flexbox-literals';
-import '@amber-ds/components/progress';
 import './components/cst-snackbar/cst-snackbar';
 import './components/cst-header/cst-header';
 import './components/cst-404/cst-404';
@@ -57,26 +55,21 @@ export class CSTAppElement extends LitElement {
       --app-secondary-color: #b8b8b8;
       --app-text-color: #5c5c5c;
       --app-hover-color: #757575;
-      overflow: hidden;
-      ${displayFlex}
-      ${vertical}
+      display: flex;
+      flex-direction: column;
     }
 
     main-content {
-      ${displayFlex}
-      ${vertical}
+      display: flex;
+      flex-direction: column;
       margin: 0 auto;
       max-width: 900px;
       width: 100%;
     }
 
     cst-loading {
-      ${selfCenter}
+      align-self: center;
       margin-top: 24px;
-    }
-
-    [hidden] {
-      ${displayNone}
     }
   `;
 
