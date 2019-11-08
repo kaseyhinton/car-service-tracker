@@ -67,24 +67,11 @@
         color: #606c76;
       }
     </style>
-
-    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" defer></script>
-
-    <script type="module">
-      window.WebComponents = window.WebComponents || {
-        waitFor(cb) {
-          addEventListener('WebComponentsReady', cb);
-        },
-      };
-
-      WebComponents.waitFor(async () => {
-        import(document.baseURI + 'src/cst-app.js');
-      });
-    </script>
   </head>
 
   <body>
     <cst-app></cst-app>
+    <script type="module" src="./src/cst-app.js"></script>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>

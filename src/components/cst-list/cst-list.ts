@@ -1,15 +1,14 @@
 import { LitElement, customElement, html, css } from 'lit-element';
 import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
-import { plus } from '../../icons';
+import { plus } from '../../utilities/icons';
 
 let firstLoad: boolean = false;
 
 @customElement('cst-list')
 export default class CSTListElement extends LitElement {
   static styles = css`
-    ${CSTStyles}
-    :host {
+    ${CSTStyles} :host {
       display: flex;
       flex-direction: column;
       margin: 24px 16px;
@@ -31,7 +30,6 @@ export default class CSTListElement extends LitElement {
     }
 
     a.button {
-      align-self: flex-end;
       height: 32px;
       line-height: 32px;
       margin: 0 0 0 16px;
