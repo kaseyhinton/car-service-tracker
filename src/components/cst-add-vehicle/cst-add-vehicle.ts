@@ -42,8 +42,8 @@ export default class CSTAddVehicle extends LitElement {
     });
 
     setTimeout(() => {
-      this.isLoading = false;
       this.dispatchEvent(new NavigateEvent('/'));
+      this.isLoading = false;
     }, 400);
   }
 
@@ -80,6 +80,7 @@ export default class CSTAddVehicle extends LitElement {
           required
           id="make"
           type="text"
+          autocomplete="off"
           @input=${event => {
             this.make = event.target.value;
           }}
@@ -90,6 +91,7 @@ export default class CSTAddVehicle extends LitElement {
           required
           id="model"
           type="text"
+          autocomplete="off"
           @input=${event => {
             this.model = event.target.value;
           }}
@@ -100,6 +102,7 @@ export default class CSTAddVehicle extends LitElement {
           required
           id="year"
           type="number"
+          autocomplete="off"
           @input=${event => {
             this.year = event.target.value;
           }}

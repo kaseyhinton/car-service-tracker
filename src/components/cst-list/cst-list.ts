@@ -101,6 +101,7 @@ export default class CSTListElement extends LitElement {
   }
 
   private async _editCar(selectedCar: Car | null) {
+    console.log(selectedCar);
     if (!this.selectedCar) return;
   }
 

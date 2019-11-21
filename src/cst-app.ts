@@ -81,6 +81,8 @@ export class CSTAppElement extends LitElement {
             <cst-add-vehicle></cst-add-vehicle>
           `
         );
+      default:
+        return html``;
     }
   }
 
