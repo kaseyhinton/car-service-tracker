@@ -4,8 +4,7 @@ import CSTStyles from '../../styles/cst-styles/cst-styles';
 @customElement('cst-404')
 export default class CST404 extends LitElement {
   static styles = css`
-    ${CSTStyles}
-    :host {
+    ${CSTStyles} :host {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -20,7 +19,7 @@ export default class CST404 extends LitElement {
   render() {
     return html`
       <img alt="car" src="images/undraw_vehicle_sale.svg" />
-      <h2>OOPS!</h2>
+      <h1>OOPS!</h1>
       <p>
         These aren't the cars you are looking for..
       </p>

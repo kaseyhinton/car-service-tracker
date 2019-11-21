@@ -1,12 +1,16 @@
-import { LitElement, customElement, html, css } from 'lit-element';
-import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
+import { LitElement, customElement, html, css, property } from 'lit-element';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
-import { plus } from '../../utilities/icons';
+import { plusIcon, editIcon, deleteIcon } from '../../utilities/icons';
+import { GET, DELETE } from '../../utilities/api';
 
-let firstLoad: boolean = false;
+import '../cst-loading/cst-loading';
 
 @customElement('cst-list')
 export default class CSTListElement extends LitElement {
+  @property({ type: Array }) cars: Array<Car> = [];
+  @property({ type: Object }) selectedCar: Car | null;
+  @property({ type: Boolean }) isLoading: boolean = false;
+
   static styles = css`
     ${CSTStyles} :host {
       display: flex;
@@ -21,74 +25,162 @@ export default class CSTListElement extends LitElement {
 
     header {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       margin-bottom: 24px;
     }
 
-    h4 {
-      margin: 0;
+    h2 {
+      display: flex;
+    }
+
+    tr {
+      user-select: none;
+      cursor: pointer;
+    }
+
+    tr[selected] {
+      background: #eee;
+      transition: 0.3s ease;
     }
 
     a.button {
-      height: 32px;
-      line-height: 32px;
-      margin: 0 0 0 16px;
-      padding: 0;
+      display: flex;
+      margin-left: 16px;
+      transition: 0.3s ease;
     }
 
     svg {
-      width: 32px;
-      height: 32px;
+      align-self: center;
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      margin-left: 8px;
+      transition: 0.3s ease;
+    }
+
+    a.button-outline svg {
       fill: var(--app-primary-color);
+    }
+
+    a.button-outline:hover svg {
+      fill: var(--app-hover-color);
+    }
+
+    loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    loading-container small {
+      margin-right: 16px;
+    }
+
+    [hidden] {
+      display: none !important;
     }
   `;
 
   firstUpdated() {
-    if (!firstLoad) {
-      firstLoad = true;
-      CSTSnackbarSingleton.open('Thanks for trying our car service tracker.');
+    this._getCars();
+  }
+
+  private async _getCars() {
+    this.isLoading = true;
+    this.cars = [];
+    this.cars = await GET('cars');
+    console.log(this.cars);
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 400);
+  }
+
+  private _selectCar(car: Car) {
+    this.selectedCar = car === this.selectedCar ? null : car;
+    console.log(car);
+  }
+
+  private async _editCar(selectedCar: Car | null) {
+    if (!this.selectedCar) return;
+  }
+
+  private async _deleteCar(selectedCar: Car) {
+    if (this.selectedCar) {
+      this.isLoading = true;
+      await DELETE('cars', selectedCar._id);
+      this.isLoading = false;
+      this.selectedCar = null;
+      this._getCars();
     }
   }
 
   render() {
     return html`
-      <header>
-        <h4 class="title">Vehicle Inventory</h4>
-        <a class="button button-outline" href="/add-vehicle" alt="Add Vehicle" title="Add Vehicle">
-          <svg viewBox="0 0 24 24">
-            <path d=${plus} />
-          </svg>
-        </a>
-      </header>
-      <table>
-        <tr>
-          <th>Make</th>
-          <th>Model</th>
-          <th>Year</th>
-        </tr>
-        <tr>
-          <td>Mitsubishi</td>
-          <td>Mighty Max</td>
-          <td>1994</td>
-        </tr>
-        <tr>
-          <td>Chevrolet</td>
-          <td>Equinox</td>
-          <td>2016</td>
-        </tr>
-        <tr>
-          <td>Chevrolet</td>
-          <td>Malibu</td>
-          <td>2004</td>
-        </tr>
-        <tr>
-          <td>Ford</td>
-          <td>Expedition</td>
-          <td>1998</td>
-        </tr>
-      </table>
+      ${this.isLoading
+        ? html`
+            <loading-container>
+              <small>Loading..</small>
+              <cst-loading size="24"></cst-loading>
+            </loading-container>
+          `
+        : html`
+            <header>
+              <h2 class="title">
+                Vehicle Inventory
+              </h2>
+            </header>
+            <table>
+              <table-actions>
+                <a ?hidden=${this.selectedCar} href="/add-vehicle" alt="Add Vehicle" class="button float-right">
+                  Add Car
+                  <svg viewBox="0 0 24 24">
+                    <path d=${plusIcon} />
+                  </svg>
+                </a>
+                <a ?hidden=${!this.selectedCar} @click=${() => this._editCar(this.selectedCar)} class="button button-outline float-right">
+                  Edit Car
+                  <svg viewBox="0 0 24 24">
+                    <path d=${editIcon} />
+                  </svg>
+                </a>
+                <a ?hidden=${!this.selectedCar} @click=${() => this._deleteCar(this.selectedCar!)} class="button float-right">
+                  Delete Car
+                  <svg viewBox="0 0 24 24">
+                    <path d=${deleteIcon} />
+                  </svg>
+                </a>
+              </table-actions>
 
-      <img alt="car" src="images/undraw_fast_car.svg" />
+              <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+              </tr>
+              ${this.cars.map(
+                car => html`
+                  <tr
+                    ?selected=${this.selectedCar === car}
+                    @click=${() => {
+                      this._selectCar(car);
+                    }}
+                  >
+                    <td>${car.make}</td>
+                    <td>${car.model}</td>
+                    <td>${car.year}</td>
+                  </tr>
+                `
+              )}
+            </table>
+
+            <img alt="car" src="images/undraw_fast_car.svg" />
+          `}
     `;
   }
+}
+
+export interface Car {
+  _id: string;
+  make: string;
+  model: string;
+  year: string;
 }

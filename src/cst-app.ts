@@ -2,7 +2,6 @@
 import page from 'page';
 import './components/cst-snackbar/cst-snackbar';
 import './components/cst-header/cst-header';
-import './components/cst-loading/cst-loading';
 
 import { NavigateEvent } from './utilities/events';
 import CSTStyles from './styles/cst-styles/cst-styles';
@@ -10,47 +9,50 @@ import lazyLoad from './utilities/lazy-load';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
-  @property({ type: Boolean }) isLoading: boolean = true;
   @property({ type: String }) page: string | undefined;
-  @property({ type: String }) currentView: 'vehicles' | 'vehicle' | 'not-found' = 'vehicles';
+  @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found';
   @property({ type: Number }) vehicleId: number;
 
   constructor() {
     super();
     this._installRoutes();
     this.addEventListener(NavigateEvent.eventName, (event: NavigateEvent) => page.show(event.detail));
-    window.addEventListener('lazy-load-complete', () => {
-      this.isLoading = false;
-    });
+
+    // First load make a call to get a jsonbox
+    // store this in local storage
+    // https://jsonbox.io/box_1f9996813bc8ce189395
+    localStorage.setItem('apiUrl', 'https://jsonbox.io/box_1f9996813bc8ce189395');
   }
 
   private _installRoutes() {
     page.redirect('/', '/vehicles');
     page('/vehicles', this._vehiclesRoute.bind(this));
     page('/vehicle/:id', this._vehicleRoute.bind(this));
+    page('/add-vehicle', this._addVehicleRoute.bind(this));
     page('*', this._notFoundRoute.bind(this));
     page();
   }
 
   private _vehiclesRoute() {
-    this.isLoading = true;
     this.currentView = 'vehicles';
   }
 
+  private _addVehicleRoute() {
+    this.currentView = 'add-vehicle';
+  }
+
   private _vehicleRoute(context) {
-    this.isLoading = true;
     this.currentView = 'vehicle';
     const vehicleId: string = context.params['id'];
     this.vehicleId = Number(vehicleId);
   }
 
   private _notFoundRoute() {
-    this.isLoading = true;
     this.currentView = 'not-found';
   }
 
-  private _renderCurrentView() {
-    switch (this.currentView) {
+  private _renderCurrentView(currentView: string) {
+    switch (currentView) {
       case 'vehicles':
         return lazyLoad(
           import('./components/cst-list/cst-list.js'),
@@ -70,6 +72,13 @@ export class CSTAppElement extends LitElement {
           import('./components/cst-404/cst-404.js'),
           html`
             <cst-404></cst-404>
+          `
+        );
+      case 'add-vehicle':
+        return lazyLoad(
+          import('./components/cst-add-vehicle/cst-add-vehicle.js'),
+          html`
+            <cst-add-vehicle></cst-add-vehicle>
           `
         );
     }
@@ -94,11 +103,6 @@ export class CSTAppElement extends LitElement {
       background: #fff;
     }
 
-    cst-loading {
-      align-self: center;
-      margin-top: 24px;
-    }
-
     [hidden] {
       display: none;
     }
@@ -109,10 +113,7 @@ export class CSTAppElement extends LitElement {
       <main class="wrapper">
         <cst-header></cst-header>
         <main-content>
-          <cst-loading ?hidden=${!this.isLoading}></cst-loading>
-          <div ?hidden=${this.isLoading}>
-            ${this._renderCurrentView()}
-          </div>
+          ${this._renderCurrentView(this.currentView)}
         </main-content>
         <cst-snackbar></cst-snackbar>
       </main>

@@ -40,8 +40,8 @@ const CSTMilligram = css`
     display: inline-block;
     font-size: 1rem;
     font-weight: 500;
-    height: 48px;
-    line-height: 48px;
+    height: 3.8rem;
+    line-height: 3.8rem;
     letter-spacing: normal;
     padding: 0 3rem;
     text-align: center;
@@ -107,9 +107,7 @@ const CSTMilligram = css`
     border-color: var(--app-hover-color);
     color: var(--app-hover-color);
   }
-  .button:hover svg {
-    fill: var(--app-hover-color);
-  }
+
   .button.button-outline[disabled]:focus,
   .button.button-outline[disabled]:hover,
   button.button-outline[disabled]:focus,
