@@ -4,6 +4,8 @@ import { plusIcon, editIcon, deleteIcon } from '../../utilities/icons';
 import { GET, DELETE } from '../../utilities/api';
 
 import '../cst-loading/cst-loading';
+import '../cst-loading/cst-loading-container';
+import { NavigateEvent } from '../../utilities/events';
 
 @customElement('cst-list')
 export default class CSTListElement extends LitElement {
@@ -66,16 +68,6 @@ export default class CSTListElement extends LitElement {
       fill: var(--app-hover-color);
     }
 
-    loading-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    loading-container small {
-      margin-right: 16px;
-    }
-
     [hidden] {
       display: none !important;
     }
@@ -100,9 +92,9 @@ export default class CSTListElement extends LitElement {
     console.log(car);
   }
 
-  private async _editCar(selectedCar: Car | null) {
-    console.log(selectedCar);
+  private async _editCar(selectedCar: Car) {
     if (!this.selectedCar) return;
+    this.dispatchEvent(new NavigateEvent(`/vehicle/${selectedCar._id}`));
   }
 
   private async _deleteCar(selectedCar: Car) {
@@ -119,10 +111,9 @@ export default class CSTListElement extends LitElement {
     return html`
       ${this.isLoading
         ? html`
-            <loading-container>
-              <small>Loading..</small>
+            <cst-loading-container>
               <cst-loading size="24"></cst-loading>
-            </loading-container>
+            </cst-loading-container>
           `
         : html`
             <header>
@@ -138,7 +129,7 @@ export default class CSTListElement extends LitElement {
                     <path d=${plusIcon} />
                   </svg>
                 </a>
-                <a ?hidden=${!this.selectedCar} @click=${() => this._editCar(this.selectedCar)} class="button button-outline float-right">
+                <a ?hidden=${!this.selectedCar} @click=${() => this._editCar(this.selectedCar!)} class="button button-outline float-right">
                   Edit Car
                   <svg viewBox="0 0 24 24">
                     <path d=${editIcon} />

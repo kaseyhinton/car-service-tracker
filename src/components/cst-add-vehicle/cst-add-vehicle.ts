@@ -72,7 +72,6 @@ export default class CSTAddVehicle extends LitElement {
   `;
   render() {
     return html`
-      <img alt="car" src="images/undraw_city_driver.svg" />
       <h2>Add a Vehicle</h2>
       <form>
         <label for="make">Make</label>
@@ -116,6 +115,7 @@ export default class CSTAddVehicle extends LitElement {
             `
           : 'Save'}
       </a>
+      <img alt="car" src="images/undraw_city_driver.svg" />
     `;
   }
 }

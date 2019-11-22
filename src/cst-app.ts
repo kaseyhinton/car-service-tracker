@@ -11,7 +11,7 @@ import lazyLoad from './utilities/lazy-load';
 export class CSTAppElement extends LitElement {
   @property({ type: String }) page: string | undefined;
   @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found';
-  @property({ type: Number }) vehicleId: number;
+  @property({ type: String }) vehicleId: string;
 
   constructor() {
     super();
@@ -43,8 +43,7 @@ export class CSTAppElement extends LitElement {
 
   private _vehicleRoute(context) {
     this.currentView = 'vehicle';
-    const vehicleId: string = context.params['id'];
-    this.vehicleId = Number(vehicleId);
+    this.vehicleId = context.params['id'];
   }
 
   private _notFoundRoute() {
