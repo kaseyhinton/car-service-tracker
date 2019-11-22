@@ -8,7 +8,7 @@ export default {
   plugins: [
     ...config.plugins,
     cpy({
-      files: ['**/*.png', '**/*.svg', '**/*.ico'],
+      files: ['**/*.png', '**/*.svg', '**/*.ico', '_redirects'],
       dest: 'dist',
       options: {
         parents: true,
