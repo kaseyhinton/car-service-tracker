@@ -13,7 +13,7 @@ import lazyLoad from './utilities/lazy-load';
 export class CSTAppElement extends LitElement {
   @property({ type: Boolean }) isLoading: boolean;
   @property({ type: String }) page: string | undefined;
-  @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found';
+  @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found' | 'login' | 'create-account';
   @property({ type: String }) vehicleId: string;
 
   constructor() {
@@ -27,12 +27,22 @@ export class CSTAppElement extends LitElement {
   }
 
   private _installRoutes() {
-    page.redirect('/', '/vehicles');
+    page.redirect('/', '/login');
     page('/vehicles', this._vehiclesRoute.bind(this));
     page('/vehicle/:id', this._vehicleRoute.bind(this));
     page('/add-vehicle', this._addVehicleRoute.bind(this));
+    page('/login', this._loginRoute.bind(this));
+    page('/create-account', this._createAccountRoute.bind(this));
     page('*', this._notFoundRoute.bind(this));
     page();
+  }
+
+  private _loginRoute() {
+    this.currentView = 'login';
+  }
+
+  private _createAccountRoute() {
+    this.currentView = 'create-account';
   }
 
   private _vehiclesRoute() {
@@ -80,6 +90,20 @@ export class CSTAppElement extends LitElement {
           import('./components/cst-add-vehicle/cst-add-vehicle.js'),
           html`
             <cst-add-vehicle></cst-add-vehicle>
+          `
+        );
+      case 'login':
+        return lazyLoad(
+          import('./components/cst-login/cst-login.js'),
+          html`
+            <cst-login></cst-login>
+          `
+        );
+      case 'create-account':
+        return lazyLoad(
+          import('./components/cst-create-account/cst-create-account.js'),
+          html`
+            <cst-create-account></cst-create-account>
           `
         );
       default:
