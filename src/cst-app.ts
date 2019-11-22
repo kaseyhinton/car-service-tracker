@@ -2,6 +2,8 @@
 import page from 'page';
 import './components/cst-snackbar/cst-snackbar';
 import './components/cst-header/cst-header';
+import './components/cst-loading/cst-loading';
+import './components/cst-loading/cst-loading-container';
 
 import { NavigateEvent } from './utilities/events';
 import CSTStyles from './styles/cst-styles/cst-styles';
@@ -9,6 +11,7 @@ import lazyLoad from './utilities/lazy-load';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
+  @property({ type: Boolean }) isLoading: boolean;
   @property({ type: String }) page: string | undefined;
   @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found';
   @property({ type: String }) vehicleId: string;
@@ -17,7 +20,6 @@ export class CSTAppElement extends LitElement {
     super();
     this._installRoutes();
     this.addEventListener(NavigateEvent.eventName, (event: NavigateEvent) => page.show(event.detail));
-
     // First load make a call to get a jsonbox
     // store this in local storage
     // https://jsonbox.io/box_1f9996813bc8ce189395
@@ -92,16 +94,38 @@ export class CSTAppElement extends LitElement {
       --app-text-color: #5c5c5c;
       --app-hover-color: #757575;
       display: flex;
+      flex: 1 1 auto;
       flex-direction: column;
+      min-height: 100vh;
+    }
+
+    loading-veil {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #f9f9f9;
     }
 
     main-content {
       display: flex;
       flex-direction: column;
+      flex: 1 1 auto;
       margin: 0 auto;
-      max-width: 900px;
+      max-width: 700px;
       width: 100%;
-      background: #fff;
+      transition: 0.3s ease;
+      opacity: 1;
+    }
+
+    cst-header {
+      opacity: 1;
+    }
+
+    [invisible] {
+      opacity: 0;
+      transition: none;
     }
 
     [hidden] {
@@ -111,13 +135,16 @@ export class CSTAppElement extends LitElement {
 
   render() {
     return html`
-      <main class="wrapper">
-        <cst-header></cst-header>
-        <main-content>
-          ${this._renderCurrentView(this.currentView)}
-        </main-content>
-        <cst-snackbar></cst-snackbar>
-      </main>
+      <loading-veil ?hidden=${!this.isLoading}>
+        <cst-loading-container ?hidden=${!this.isLoading}>
+          <cst-loading size="24"></cst-loading>
+        </cst-loading-container>
+      </loading-veil>
+      <cst-header ?invisible=${this.isLoading}></cst-header>
+      <main-content ?invisible=${this.isLoading}>
+        ${this._renderCurrentView(this.currentView)}
+      </main-content>
+      <cst-snackbar></cst-snackbar>
     `;
   }
 }

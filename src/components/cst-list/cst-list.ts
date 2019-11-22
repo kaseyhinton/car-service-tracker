@@ -3,6 +3,7 @@ import CSTStyles from '../../styles/cst-styles/cst-styles';
 import { plusIcon, editIcon, deleteIcon } from '../../utilities/icons';
 import { GET, DELETE } from '../../utilities/api';
 
+import '../cst-title/cst-title';
 import '../cst-loading/cst-loading';
 import '../cst-loading/cst-loading-container';
 import { NavigateEvent } from '../../utilities/events';
@@ -17,22 +18,8 @@ export default class CSTListElement extends LitElement {
     ${CSTStyles} :host {
       display: flex;
       flex-direction: column;
-      margin: 24px 16px;
-    }
-
-    img {
-      margin-top: 24px;
-      height: 132px;
-    }
-
-    header {
-      display: flex;
-      align-items: flex-end;
-      margin-bottom: 24px;
-    }
-
-    h2 {
-      display: flex;
+      flex: 1 1 auto;
+      margin: 16px;
     }
 
     tr {
@@ -45,9 +32,24 @@ export default class CSTListElement extends LitElement {
       transition: 0.3s ease;
     }
 
+    a.button[add-vehicle] {
+      align-self: flex-end;
+      border-radius: 50%;
+      padding: 0;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    a.button[add-vehicle] svg {
+      margin: 0;
+    }
+
     a.button {
       display: flex;
       margin-left: 16px;
+      opacity: 1;
       transition: 0.3s ease;
     }
 
@@ -68,8 +70,13 @@ export default class CSTListElement extends LitElement {
       fill: var(--app-hover-color);
     }
 
-    [hidden] {
-      display: none !important;
+    flex-spacer {
+      display: flex;
+      flex: 1 1 auto;
+    }
+
+    [invisible] {
+      opacity: 0 !important;
     }
   `;
 
@@ -81,15 +88,11 @@ export default class CSTListElement extends LitElement {
     this.isLoading = true;
     this.cars = [];
     this.cars = await GET('cars');
-    console.log(this.cars);
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 400);
+    this.isLoading = false;
   }
 
   private _selectCar(car: Car) {
     this.selectedCar = car === this.selectedCar ? null : car;
-    console.log(car);
   }
 
   private async _editCar(selectedCar: Car) {
@@ -116,33 +119,8 @@ export default class CSTListElement extends LitElement {
             </cst-loading-container>
           `
         : html`
-            <header>
-              <h2 class="title">
-                Vehicle Inventory
-              </h2>
-            </header>
+            <cst-title imagePath="images/undraw_fast_car.svg" title="Vehicles"></cst-title>
             <table>
-              <table-actions>
-                <a ?hidden=${this.selectedCar} href="/add-vehicle" alt="Add Vehicle" class="button float-right">
-                  Add Car
-                  <svg viewBox="0 0 24 24">
-                    <path d=${plusIcon} />
-                  </svg>
-                </a>
-                <a ?hidden=${!this.selectedCar} @click=${() => this._editCar(this.selectedCar!)} class="button button-outline float-right">
-                  Edit Car
-                  <svg viewBox="0 0 24 24">
-                    <path d=${editIcon} />
-                  </svg>
-                </a>
-                <a ?hidden=${!this.selectedCar} @click=${() => this._deleteCar(this.selectedCar!)} class="button float-right">
-                  Delete Car
-                  <svg viewBox="0 0 24 24">
-                    <path d=${deleteIcon} />
-                  </svg>
-                </a>
-              </table-actions>
-
               <tr>
                 <th>Make</th>
                 <th>Model</th>
@@ -164,7 +142,38 @@ export default class CSTListElement extends LitElement {
               )}
             </table>
 
-            <img alt="car" src="images/undraw_fast_car.svg" />
+            <table-actions>
+              <a
+                ?invisible=${!this.selectedCar}
+                @click=${() => this._editCar(this.selectedCar!)}
+                class="button button-outline float-right"
+                alt="Edit Vehicle"
+                title="Edit Vehicle"
+              >
+                Edit
+                <svg viewBox="0 0 24 24">
+                  <path d=${editIcon} />
+                </svg>
+              </a>
+              <a
+                ?invisible=${!this.selectedCar}
+                @click=${() => this._deleteCar(this.selectedCar!)}
+                class="button float-right"
+                alt="Delete Vehicle"
+                title="Delete Vehicle"
+              >
+                Delete
+                <svg viewBox="0 0 24 24">
+                  <path d=${deleteIcon} />
+                </svg>
+              </a>
+            </table-actions>
+            <flex-spacer></flex-spacer>
+            <a add-vehicle href="/add-vehicle" title="Add Vehicle" alt="Add Vehicle" class="button float-right">
+              <svg viewBox="0 0 24 24">
+                <path d=${plusIcon} />
+              </svg>
+            </a>
           `}
     `;
   }

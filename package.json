@@ -8,8 +8,10 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "dayjs": "^1.8.16",
+    "delay": "^4.3.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
+    "p-min-delay": "^3.1.0",
     "page": "^1.11.5"
   },
   "devDependencies": {

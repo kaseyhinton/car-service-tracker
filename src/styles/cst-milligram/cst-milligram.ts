@@ -204,9 +204,10 @@ const CSTMilligram = css`
     border-radius: 0.4rem;
     box-shadow: none;
     box-sizing: inherit;
-    height: 3.8rem;
-    padding: 0.6rem 1rem;
-    width: 100%;
+    height: 2.8rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex: 1 1 auto;
   }
   input[type='email']:focus,
   input[type='number']:focus,
@@ -237,6 +238,10 @@ const CSTMilligram = css`
   }
   textarea {
     min-height: 6.5rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
   }
   label,
   legend {
@@ -442,7 +447,7 @@ const CSTMilligram = css`
   input,
   select,
   textarea {
-    margin-bottom: 1.5rem;
+    margin-bottom: 3rem;
   }
   blockquote,
   dl,

@@ -3,7 +3,9 @@ import CSTStyles from '../../styles/cst-styles/cst-styles';
 import { POST } from '../../utilities/api';
 import { NavigateEvent } from '../../utilities/events';
 
+import '../cst-title/cst-title';
 import '../cst-loading/cst-loading';
+import '../cst-loading/cst-loading-container';
 import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
 
 @customElement('cst-add-vehicle')
@@ -35,87 +37,88 @@ export default class CSTAddVehicle extends LitElement {
 
     this.isLoading = true;
 
-    await POST('cars', {
+    const result = await POST('cars', {
       make: this.make,
       model: this.model,
       year: this.year,
     });
 
-    setTimeout(() => {
+    if (result) {
       this.dispatchEvent(new NavigateEvent('/'));
-      this.isLoading = false;
-    }, 400);
+    }
+    this.isLoading = false;
   }
 
   static styles = css`
     ${CSTStyles} :host {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      margin: 16px 0;
+      margin: 16px;
     }
 
     a.button {
       display: flex;
       align-items: center;
+      align-self: flex-end;
     }
 
     a.button[disabled] {
       pointer-events: none;
       user-select: none;
     }
-
-    img {
-      width: 248px;
-      height: 248px;
-    }
   `;
   render() {
     return html`
-      <h2>Add a Vehicle</h2>
-      <form>
-        <label for="make">Make</label>
-        <input
-          required
-          id="make"
-          type="text"
-          autocomplete="off"
-          @input=${event => {
-            this.make = event.target.value;
-          }}
-          .value=${this.make}
-        />
-        <label for="model">Model</label>
-        <input
-          required
-          id="model"
-          type="text"
-          autocomplete="off"
-          @input=${event => {
-            this.model = event.target.value;
-          }}
-          .value=${this.model}
-        />
-        <label for="year">Year</label>
-        <input
-          required
-          id="year"
-          type="number"
-          autocomplete="off"
-          @input=${event => {
-            this.year = event.target.value;
-          }}
-          .value=${this.year}
-        />
-      </form>
-      <a class="button" ?disabled=${this.isLoading} @click=${this._save}>
-        ${this.isLoading
-          ? html`
+      ${this.isLoading
+        ? html`
+            <cst-loading-container>
               <cst-loading size="24"></cst-loading>
-            `
-          : 'Save'}
-      </a>
-      <img alt="car" src="images/undraw_city_driver.svg" />
+            </cst-loading-container>
+          `
+        : html`
+            <cst-title imagePath="images/undraw_city_driver.svg" title="Add Vehicle"></cst-title>
+            <form>
+              <label for="make">Make</label>
+              <input
+                required
+                id="make"
+                type="text"
+                autocomplete="off"
+                @input=${event => {
+                  this.make = event.target.value;
+                }}
+                .value=${this.make}
+              />
+
+              <label for="model">Model</label>
+              <input
+                required
+                id="model"
+                type="text"
+                autocomplete="off"
+                @input=${event => {
+                  this.model = event.target.value;
+                }}
+                .value=${this.model}
+              />
+
+              <label for="year">Year</label>
+              <input
+                required
+                id="year"
+                type="number"
+                autocomplete="off"
+                @input=${event => {
+                  this.year = event.target.value;
+                }}
+                .value=${this.year}
+              />
+
+              <a class="button" ?disabled=${this.isLoading} @click=${this._save}>
+                Save
+              </a>
+            </form>
+          `}
     `;
   }
 }

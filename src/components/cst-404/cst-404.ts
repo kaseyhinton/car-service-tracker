@@ -15,14 +15,19 @@ export default class CST404 extends LitElement {
       width: 248px;
       height: 248px;
     }
+
+    small {
+      margin-bottom: 2rem;
+    }
   `;
+
   render() {
     return html`
       <img alt="car" src="images/undraw_vehicle_sale.svg" />
       <h1>OOPS!</h1>
-      <p>
-        These aren't the cars you are looking for..
-      </p>
+      <small>
+        You've come to the wrong spot!
+      </small>
       <a class="button" href="/">
         Home
       </a>

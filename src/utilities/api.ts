@@ -1,4 +1,6 @@
 import { CSTSnackbarSingleton } from '../components/cst-snackbar/cst-snackbar';
+import minDelay from './min-delay';
+const ANIMATION_DELAY = 600;
 
 const findApiUrl = () => {
   const apiUrl = localStorage.getItem(`apiUrl`);
@@ -20,14 +22,16 @@ export const GET = async (path: string) => {
   const fullUrl = `${apiUrl}${path ? `/${path}` : ''}`;
 
   try {
-    const response = await fetch(fullUrl, {
-      method: 'GET',
-      headers: {
-        ...contentTypeApplicationJson,
-      },
-    });
+    const response = await minDelay(
+      fetch(fullUrl, {
+        method: 'GET',
+        headers: {
+          ...contentTypeApplicationJson,
+        },
+      }),
+      ANIMATION_DELAY
+    );
     const json = JSON.parse(await response.text());
-
     return Promise.resolve(json);
   } catch (error) {
     CSTSnackbarSingleton.open(error);
@@ -41,13 +45,16 @@ export const POST = async (path: string, body: any) => {
   const fullUrl = `${apiUrl}${path ? `/${path}` : ''}`;
 
   try {
-    const response = await fetch(fullUrl, {
-      method: 'POST',
-      headers: {
-        ...contentTypeApplicationJson,
-      },
-      body: JSON.stringify(body),
-    });
+    const response = await minDelay(
+      fetch(fullUrl, {
+        method: 'POST',
+        headers: {
+          ...contentTypeApplicationJson,
+        },
+        body: JSON.stringify(body),
+      }),
+      ANIMATION_DELAY
+    );
     let json;
     try {
       json = await response.json();
@@ -69,6 +76,34 @@ export const POST = async (path: string, body: any) => {
   }
 };
 
+export const PUT = async (path: string, body: any) => {
+  const apiUrl = findApiUrl();
+  if (!apiUrl) return;
+
+  const fullUrl = `${apiUrl}${path ? `/${path}` : ''}`;
+
+  try {
+    const response = await minDelay(
+      fetch(fullUrl, {
+        method: 'PUT',
+        headers: {
+          ...contentTypeApplicationJson,
+        },
+        body: JSON.stringify(body),
+      }),
+      ANIMATION_DELAY
+    );
+    let json;
+    json = await response.json();
+
+    if (response.status === 201 || response.status === 200) {
+      return Promise.resolve(json);
+    }
+  } catch (error) {
+    CSTSnackbarSingleton.open(error);
+  }
+};
+
 export const DELETE = async (path: string, id: string) => {
   const apiUrl = findApiUrl();
   if (!apiUrl || !path || !id) return;
@@ -76,12 +111,15 @@ export const DELETE = async (path: string, id: string) => {
   const fullUrl = `${apiUrl}${path ? `/${path}` : ''}${id ? `/${id}` : ''}`;
 
   try {
-    const response = await fetch(fullUrl, {
-      method: 'DELETE',
-      headers: {
-        ...contentTypeApplicationJson,
-      },
-    });
+    const response = await minDelay(
+      fetch(fullUrl, {
+        method: 'DELETE',
+        headers: {
+          ...contentTypeApplicationJson,
+        },
+      }),
+      ANIMATION_DELAY
+    );
     const json = JSON.parse(await response.text());
 
     return Promise.resolve(json);

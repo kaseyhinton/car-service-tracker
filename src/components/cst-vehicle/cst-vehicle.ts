@@ -1,8 +1,9 @@
 import { LitElement, html, customElement, css, property, queryAll } from 'lit-element';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
-import { POST, GET } from '../../utilities/api';
+import { GET, PUT } from '../../utilities/api';
 import { NavigateEvent } from '../../utilities/events';
 
+import '../cst-title/cst-title';
 import '../cst-loading/cst-loading';
 import '../cst-loading/cst-loading-container';
 import { CSTSnackbarSingleton } from '../cst-snackbar/cst-snackbar';
@@ -26,11 +27,11 @@ export default class CSTVehicle extends LitElement {
     this.isLoading = true;
     const car = await GET(`cars/${this.vehicleId}`);
     if (car) {
-      setTimeout(() => {
-        this.isLoading = false;
-        this.car = car;
-        console.log(car);
-      }, 400);
+      this.isLoading = false;
+      this.car = car;
+      this.make = car.make;
+      this.model = car.model;
+      this.year = car.year;
     }
   }
 
@@ -54,39 +55,33 @@ export default class CSTVehicle extends LitElement {
 
     this.isLoading = true;
 
-    await POST('cars', {
+    const result = await PUT(`cars/${this.vehicleId}`, {
       make: this.make,
       model: this.model,
       year: this.year,
     });
-
-    setTimeout(() => {
+    if (result) {
       this.dispatchEvent(new NavigateEvent('/'));
-      this.isLoading = false;
-    }, 400);
+    }
+    this.isLoading = false;
   }
 
   static styles = css`
     ${CSTStyles} :host {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      margin: 16px 0;
+      margin: 16px;
     }
 
     a.button {
       display: flex;
       align-items: center;
+      align-self: flex-end;
     }
 
     a.button[disabled] {
       pointer-events: none;
       user-select: none;
-    }
-
-    img {
-      width: 248px;
-      height: 248px;
     }
   `;
   render() {
@@ -98,7 +93,8 @@ export default class CSTVehicle extends LitElement {
             </cst-loading-container>
           `
         : html`
-            <h2>Edit Vehicle</h2>
+            <cst-title imagePath="images/undraw_off_road.svg" title="Edit Vehicle"></cst-title>
+
             <form>
               <label for="make">Make</label>
               <input
@@ -109,7 +105,7 @@ export default class CSTVehicle extends LitElement {
                 @input=${event => {
                   this.make = event.target.value;
                 }}
-                .value=${(this.car || {}).make}
+                .value=${this.make}
               />
               <label for="model">Model</label>
               <input
@@ -120,7 +116,7 @@ export default class CSTVehicle extends LitElement {
                 @input=${event => {
                   this.model = event.target.value;
                 }}
-                .value=${(this.car || {}).model}
+                .value=${this.model}
               />
               <label for="year">Year</label>
               <input
@@ -131,7 +127,7 @@ export default class CSTVehicle extends LitElement {
                 @input=${event => {
                   this.year = event.target.value;
                 }}
-                .value=${(this.car || {}).year}
+                .value=${this.year}
               />
             </form>
             <a class="button" ?disabled=${this.isLoading} @click=${this._save}>
@@ -141,8 +137,6 @@ export default class CSTVehicle extends LitElement {
                   `
                 : 'Save'}
             </a>
-
-            <img alt="car" src="images/undraw_off_road.svg" />
           `}
     `;
   }

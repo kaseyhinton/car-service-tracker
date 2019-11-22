@@ -1,14 +1,16 @@
-import { LitElement, html, property, css } from 'lit-element';
+import { LitElement, html, property, css, customElement } from 'lit-element';
+import CSTStyles from '../../styles/cst-styles/cst-styles';
 
+@customElement('cst-loading-container')
 export default class CSTLoadingContainer extends LitElement {
   @property({ type: String }) message: string = 'Loading..';
 
   static styles = css`
-    :host {
+    ${CSTStyles} :host {
       display: flex;
+      flex: 1 1 auto;
+      margin-top: 24px;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
 
     loading-container {

@@ -8,6 +8,7 @@ const lazyLoad = directive((importPromise, value) => part => {
     });
   }
   part.setValue(value);
+  window.dispatchEvent(new CustomEvent('lazy-load-complete'));
 });
 
 export { lazyLoad, lazyLoad as default };
