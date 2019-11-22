@@ -26,8 +26,12 @@ export class CSTAppElement extends LitElement {
     localStorage.setItem('apiUrl', 'https://jsonbox.io/box_1f9996813bc8ce189395');
   }
 
+  firstUpdated() {
+    page.redirect('/login');
+  }
+
   private _installRoutes() {
-    page.redirect('/', '/login');
+    page.redirect('/', '/vehicles');
     page('/vehicles', this._vehiclesRoute.bind(this));
     page('/vehicle/:id', this._vehicleRoute.bind(this));
     page('/add-vehicle', this._addVehicleRoute.bind(this));
