@@ -25,14 +25,27 @@ export default class CSTTitle extends LitElement {
     }
 
     lazy-image {
-      height: 100px;
-      width: 150px;
+      width: var(--lazy-image-width);
+      height: var(--lazy-image-height);
+      background-color: #fff;
+      --lazy-image-fade-duration: 0.6s;
+    }
+
+    lazy-placeholder {
+      background: #f5f5f5;
+      width: var(--lazy-image-width);
+      height: var(--lazy-image-height);
+      border-radius: 8px;
     }
 
     header-text {
       display: flex;
       flex-direction: column;
       margin: 0 16px 0 0;
+    }
+
+    [aria-hidden] {
+      display: none !important;
     }
   `;
   render() {
@@ -43,7 +56,9 @@ export default class CSTTitle extends LitElement {
         </h3>
         <small ?hidden=${!this.subTitle}>${this.subTitle}</small>
       </header-text>
-      <lazy-image src=${this.imagePath}></lazy-image>
+      <lazy-image fade src=${this.imagePath}>
+        <lazy-placeholder slot="placeholder"></lazy-placeholder>
+      </lazy-image>
     `;
   }
 }
