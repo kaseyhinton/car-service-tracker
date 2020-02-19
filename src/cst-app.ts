@@ -121,6 +121,8 @@ export class CSTAppElement extends LitElement {
       --app-secondary-color: #b8b8b8;
       --app-text-color: #5c5c5c;
       --app-hover-color: #757575;
+      --lazy-image-width: 150px;
+      --lazy-image-height: 100px;
       display: flex;
       flex: 1 1 auto;
       flex-direction: column;
