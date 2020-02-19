@@ -6,8 +6,9 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@power-elements/lazy-image": "^2.2.0",
     "@webcomponents/webcomponentsjs": "^2.4.1",
-    "dayjs": "^1.8.19",
+    "dayjs": "^1.8.20",
     "delay": "^4.3.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
