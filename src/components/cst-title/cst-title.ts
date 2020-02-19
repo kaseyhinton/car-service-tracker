@@ -1,5 +1,6 @@
 import { LitElement, html, customElement, property, css } from 'lit-element';
 import CSTStyles from '../../styles/cst-styles/cst-styles';
+import '@power-elements/lazy-image';
 
 @customElement('cst-title')
 export default class CSTTitle extends LitElement {
@@ -23,8 +24,9 @@ export default class CSTTitle extends LitElement {
       margin: 0 0 0 2px;
     }
 
-    img {
+    lazy-image {
       height: 100px;
+      width: 150px;
     }
 
     header-text {
@@ -41,7 +43,7 @@ export default class CSTTitle extends LitElement {
         </h3>
         <small ?hidden=${!this.subTitle}>${this.subTitle}</small>
       </header-text>
-      <img src=${this.imagePath} />
+      <lazy-image src=${this.imagePath}></lazy-image>
     `;
   }
 }
