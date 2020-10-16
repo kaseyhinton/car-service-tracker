@@ -8,12 +8,13 @@ import './components/cst-loading/cst-loading-container';
 import { NavigateEvent } from './utilities/events';
 import CSTStyles from './styles/cst-styles/cst-styles';
 import lazyLoad from './utilities/lazy-load';
+import { getApiUrl } from './utilities/api';
 
 @customElement('cst-app')
 export class CSTAppElement extends LitElement {
   @property({ type: Boolean }) isLoading: boolean;
   @property({ type: String }) page: string | undefined;
-  @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found' | 'login' | 'create-account';
+  @property({ type: String }) currentView: 'add-vehicle' | 'vehicles' | 'vehicle' | 'not-found' | 'login' | 'create-account' | 'settings';
   @property({ type: String }) vehicleId: string;
 
   constructor() {
@@ -23,7 +24,8 @@ export class CSTAppElement extends LitElement {
     // First load make a call to get a jsonbox
     // store this in local storage
     // https://jsonbox.io/box_1f9996813bc8ce189395
-    localStorage.setItem('apiUrl', 'https://jsonbox.io/box_1f9996813bc8ce189395');
+    if(!getApiUrl())
+      localStorage.setItem('apiUrl', 'https://jsonbox.io/box_1f9996813bc8ce189395');
   }
 
   firstUpdated() {
@@ -37,6 +39,7 @@ export class CSTAppElement extends LitElement {
     page('/add-vehicle', this._addVehicleRoute.bind(this));
     page('/login', this._loginRoute.bind(this));
     page('/create-account', this._createAccountRoute.bind(this));
+    page('/settings', this._settingsRoute.bind(this));
     page('*', this._notFoundRoute.bind(this));
     page();
   }
@@ -60,6 +63,10 @@ export class CSTAppElement extends LitElement {
   private _vehicleRoute(context) {
     this.currentView = 'vehicle';
     this.vehicleId = context.params['id'];
+  }
+
+  private _settingsRoute() {
+    this.currentView = 'settings';
   }
 
   private _notFoundRoute() {
@@ -108,6 +115,13 @@ export class CSTAppElement extends LitElement {
           import('./components/cst-create-account/cst-create-account.js'),
           html`
             <cst-create-account></cst-create-account>
+          `
+        );
+      case 'settings':
+        return lazyLoad(
+          import('./components/cst-settings/cst-settings.js'),
+          html`
+            <cst-settings></cst-settings>
           `
         );
       default:

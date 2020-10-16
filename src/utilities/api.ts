@@ -2,14 +2,27 @@ import { CSTSnackbarSingleton } from '../components/cst-snackbar/cst-snackbar';
 import minDelay from './min-delay';
 const ANIMATION_DELAY = 600;
 
-const findApiUrl = () => {
+export const getApiUrl = () => {
   const apiUrl = localStorage.getItem(`apiUrl`);
+  return apiUrl;
+};
+
+export const getJsonboxKeyFromUrl = (url: string) => {
+  return url.split('box_')[1] || '';
+};
+
+const findApiUrl = () => {
+  const apiUrl = getApiUrl();
   if (!apiUrl) {
     CSTSnackbarSingleton.open('There was a problem finding the database. Please restart this application and try again');
     return null;
   }
   return apiUrl;
 };
+
+export const updateJsonboxKey = (key: string) => {
+  localStorage.setItem('apiUrl', `https://jsonbox.io/box_${key}`);
+}
 
 const contentTypeApplicationJson = {
   'content-type': 'application/json',
