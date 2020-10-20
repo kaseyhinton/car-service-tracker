@@ -17,5 +17,5 @@
     "strictNullChecks": true,
     "rootDir": "src"
   },
-  "include": ["src/**/*.ts", "src/utilities/delasy.js"]
+  "include": ["src/**/*.ts"]
 }
