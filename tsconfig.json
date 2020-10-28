@@ -15,7 +15,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
-    "rootDir": "src"
+    "rootDir": "src",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*.ts", "src/utilities/delasy.js"]
 }
