@@ -30,7 +30,7 @@ export default class CSTIconButton extends LitElement {
     /* Icon button */
     .default {
       display: flex;
-      margin-left: 16px;
+      margin: inherit;
       opacity: 1;
       transition: 0.3s ease;
       padding-left: 12px;
