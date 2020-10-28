@@ -39,6 +39,10 @@ export default class CSTListElement extends LitElement {
       flex: 1 1 auto;
     }
 
+    cst-icon-button {
+      margin-left: 8px;
+    }
+
     [invisible] {
       opacity: 0 !important;
     }
