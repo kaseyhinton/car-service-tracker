@@ -18,5 +18,5 @@
     "rootDir": "src",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "src/utilities/delasy.js"]
+  "include": ["src/**/*.ts"]
 }
